@@ -1,0 +1,11 @@
+HBOMB R.G. V3.2 DEPLOY APP LINKS
+
+Edit HBOMB_APP_CONFIG near the bottom of index.html.
+For each app, fill in launchUrl and/or downloadUrl.
+Leave a URL empty to keep that button safely disabled.
+
+Example:
+launchUrl: "https://apps.hbombrg.com/blue-wave/"
+downloadUrl: "https://downloads.hbombrg.com/blue-wave/setup.exe"
+
+No interface-engine edits are required to change these links.
