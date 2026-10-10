@@ -19,6 +19,7 @@ jobs:
           from html.parser import HTMLParser
           from pathlib import Path
           import subprocess
+          import re
 
           expected = {
               "previews/blue-wave.svg",
@@ -31,11 +32,16 @@ jobs:
               def __init__(self):
                   super().__init__()
                   self.previews = set()
+                  self.downloads = {}
                   self.scripts = []
                   self.in_script = False
 
               def handle_starttag(self, tag, attrs):
                   attrs = dict(attrs)
+                  if tag == "a" and "data-app-download" in attrs:
+                      app = attrs["data-app-download"]
+                      assert app not in self.downloads, f"Duplicate download: {app}"
+                      self.downloads[app] = attrs
                   if tag == "script" and "src" not in attrs:
                       self.in_script = True
                       self.scripts.append("")
@@ -59,6 +65,17 @@ jobs:
           for preview in expected:
               assert Path(preview).is_file(), f"Missing preview: {preview}"
           assert page.scripts, "No inline scripts found"
+          config = next(s for s in page.scripts if "window.HBOMB_APP_CONFIG =" in s)
+          configured_downloads = dict(re.findall(r'"([a-z-]+)": \{[^\n]*downloadUrl: "([^"]+)"', config))
+          assert set(configured_downloads) == {"blue-wave", "time-core", "weather", "notepad"}, "App config not found"
+          for app, url in configured_downloads.items():
+              if not url:
+                  continue
+              link = page.downloads.get(app, {})
+              assert link.get("href") == url, f"Static download differs from config: {app}"
+              assert link.get("aria-disabled") != "true", f"Static download disabled: {app}"
+              assert "disabled" not in link.get("class", "").split(), f"Static download styled disabled: {app}"
+          print("Static download links match published app configuration")
           for number, script in enumerate(page.scripts, 1):
               result = subprocess.run(["node", "--check"], input=script, text=True, capture_output=True)
               assert result.returncode == 0, f"Inline script {number}: {result.stderr}"
