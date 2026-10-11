@@ -263,7 +263,8 @@ addEventListener('keydown',e=>{if(e.altKey&&e.key==='Tab'&&recent.length){e.prev
 const aw=document.getElementById('appWindow');if(aw)new MutationObserver(renderRecent).observe(aw,{attributes:true,attributeFilter:['class']});renderRecent();
 })();
 </script>
-\n<script>
+
+<script>
 /* V2.9 additive activity feedback. Core V2.4 behavior is intentionally untouched. */
 (function(){
  const toggle=document.getElementById('activityToggle'), panel=document.getElementById('activityCenter'), list=document.getElementById('activityList'), clear=document.getElementById('activityClear'), toast=document.getElementById('systemToast');
@@ -283,7 +284,9 @@ const aw=document.getElementById('appWindow');if(aw)new MutationObserver(renderR
  document.getElementById('dockToggle')?.addEventListener('click',()=>note('▁','DOCK SETTING',document.querySelector('.envbar')?.classList.contains('compact')?'DIMMED':'FULL'));
  note('●','SYSTEM ONLINE','V3.3 PREVIEW READY',true);
 })();
-</script>\n\n<script>
+</script>
+
+<script>
 /* V2.9 additive system tray. Does not replace core window/dock logic. */
 (function(){
  const tray=document.getElementById('systemTray'), pill=document.querySelector('.runningpill'), time=document.getElementById('trayTime'), session=document.getElementById('traySession'), running=document.getElementById('trayRunning'), focus=document.getElementById('trayFocus');
@@ -295,7 +298,9 @@ const aw=document.getElementById('appWindow');if(aw)new MutationObserver(renderR
  document.querySelectorAll('.dockbtn[data-target]').forEach(b=>b.addEventListener('click',()=>setTimeout(update,0))); ['windowMin','windowMax','windowClose'].forEach(id=>document.getElementById(id)?.addEventListener('click',()=>setTimeout(update,0)));
  document.addEventListener('keydown',e=>{if(e.key==='Escape')tray.classList.remove('open')}); update();setInterval(update,1000);
 })();
-</script>\n\n<script>
+</script>
+
+<script>
 /* V2.9 additive workspace overview. Core V2.6 interaction engine remains untouched. */
 (function(){
  const panel=document.getElementById('sessionOverview'), pill=document.querySelector('.runningpill'), sess=document.getElementById('wsSession'), run=document.getElementById('wsRunning'), focus=document.getElementById('wsFocus'), apps=document.getElementById('wsApps');
@@ -306,7 +311,9 @@ const aw=document.getElementById('appWindow');if(aw)new MutationObserver(renderR
  document.querySelectorAll('.dockbtn[data-target],.window-open-btn,#windowMin,#windowClose,#windowMax').forEach(x=>x.addEventListener('click',()=>setTimeout(state,20)));
  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()}); state();setInterval(state,1000);
 })();
-</script>\n\n<script>
+</script>
+
+<script>
 /* V2.9 additive workspace switcher. Core window/dock engine remains untouched. */
 (function(){
  const panel=document.getElementById('workspaceSwitch'), list=document.getElementById('workspaceSwitchList'); if(!panel||!list)return;
@@ -319,7 +326,8 @@ const aw=document.getElementById('appWindow');if(aw)new MutationObserver(renderR
  document.querySelectorAll('.dockbtn[data-target],#windowMin,#windowMax,#windowClose').forEach(x=>x.addEventListener('click',()=>setTimeout(render,30)));
  render();
 })();
-</script>\n
+</script>
+
 <script>
 /* V2.9 additive shortcut/help overlay. Stable V2.8 engine remains untouched. */
 (function(){
