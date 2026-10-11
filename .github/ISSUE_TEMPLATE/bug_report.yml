@@ -1,0 +1,64 @@
+name: Windows app bug report
+description: Report an installation problem, crash or other bug in an HBOMB Windows app.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing HBOMB apps! A GitHub account and sign-in are required to submit this form.
+        **Reports and comments are public. Do not include passwords, API keys, private files, personal information or other sensitive data.**
+        Describe the problem in text; no files or screenshots are required. Remove sensitive details from any error message you include.
+        Please [check existing reports](https://github.com/Hbomb330/hbombrg-com/issues) before submitting the same problem.
+  - type: dropdown
+    id: application
+    attributes:
+      label: Application
+      description: Which Windows app has the problem?
+      options:
+        - HBOMB Blue Wave
+        - HBOMB Time Core
+        - HBOMB Weather
+        - HBOMB Notepad
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: Application version
+      description: Use the version shown in the app or installer filename. Enter Unknown if you cannot find it.
+      placeholder: e.g. 2.3.0
+    validations:
+      required: true
+  - type: input
+    id: windows-version
+    attributes:
+      label: Windows version
+      description: Enter the Windows version and, if known, the version/build shown by winver. Do not include registered owner or license details.
+      placeholder: e.g. Windows 11, 24H2
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Explain what you did before the problem, including whether it happened during installation or while using the app. If it happened only once, describe what you remember.
+      placeholder: |
+        1. Open the app...
+        2. Select...
+        3. The problem occurs...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: What actually happened? Include any relevant error message with sensitive details removed, and how often it happens.
+    validations:
+      required: true
