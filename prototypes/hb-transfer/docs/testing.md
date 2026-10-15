@@ -12,7 +12,9 @@ October 15, 2026, Linux / Node 24.19.0: `npm run check` passed seven automated t
 - One-use download tickets, wrong offsets, oversize chunks, corrupt hashes, expired incomplete upload cleanup.
 - A 64 MiB upload/download using incremental hashes and bounded chunks. No claim of measured Fire memory use or 10 GiB reliability.
 
-Browser rendering and native browser-save interaction were **not executed locally**: the environment had no Chromium binary and its browser download failed. `scripts/browser-smoke.mjs` supplies a reproducible optional two-browser workflow check. Do not treat HTTP tests as proof of Silk compatibility. GitHub workflow results are independently available on the branch; configured jobs alone are not a successful run.
+GitHub Actions run [38812975380](https://github.com/Hbomb330/hbombrg-com/actions/runs/38812975380) passed all five jobs for application commit `faed182d7dc32ddb0c3ac168e026e8542940ec34`: Windows and Linux with Node 22 and 24, plus the Chromium browser workflow. The browser test paired separate desktop/mobile contexts, transferred files both ways, required approval, saved through native downloads, verified saved bytes, and checked widths of 360, 600 and 1024 pixels. It caught and helped correct native-form lifetime and form-origin issues before packaging.
+
+The local environment lacked a working Chromium binary, so browser execution was performed on GitHub. This is functional browser automation, not visual screenshot review, Fire OS/Silk validation, or a real Wi-Fi test. Manual visual and physical-device checks below remain pending.
 
 ## Windows 11 + Fire 7 (2022): all pending until you test
 
