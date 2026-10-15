@@ -74,7 +74,7 @@ $('cancel').onclick=()=>controller?.abort();
 async function save(t){
  const {ticket}=await api(`transfers/${t.id}/ticket`,'POST');
  const form=document.createElement('form');form.method='POST';form.action=`/api/transfers/${t.id}/download`;form.target='downloadTarget';form.hidden=true;
- const field=document.createElement('input');field.name='ticket';field.value=ticket;form.append(field);document.body.append(form);form.submit();form.remove();
+ const field=document.createElement('input');field.name='ticket';field.value=ticket;form.append(field);document.body.append(form);form.submit();setTimeout(()=>form.remove(),60000);
  status('Download requested. Check your browser’s Downloads. Server progress does not confirm a disk save.');
 }
 $('verify').onclick=async()=>{

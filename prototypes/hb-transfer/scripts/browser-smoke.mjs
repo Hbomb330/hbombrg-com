@@ -12,7 +12,7 @@ try{
  const mobile=await browser.newContext({acceptDownloads:true,viewport:{width:600,height:1024},isMobile:true,hasTouch:true});
  const a=await desktop.newPage(),b=await mobile.newPage(),errors=[];
  for(const [page,name] of [[a,'Windows PC'],[b,'Fire tablet']]){
-  page.on('pageerror',e=>errors.push(e.message));await page.goto(`http://${app.host}:${app.port}`);await page.locator('#name').fill(name);await page.locator('#key').fill(app.token);await page.getByRole('button',{name:'Pair device',exact:true}).click();await page.locator('#workspace').waitFor({state:'visible'});
+  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error'||m.type()==='warning')console.log('Browser:',m.text());});page.on('response',r=>{if(r.status()>=400)console.log('HTTP',r.status(),new URL(r.url()).pathname);});await page.goto(`http://${app.host}:${app.port}`);await page.locator('#name').fill(name);await page.locator('#key').fill(app.token);await page.getByRole('button',{name:'Pair device',exact:true}).click();await page.locator('#workspace').waitFor({state:'visible'});
  }
  for(const [sender,receiver,name] of [[a,b,'pc-to-fire.bin'],[b,a,'fire-to-pc.bin']]){
   await sender.waitForFunction(()=>document.querySelector('#receiver').value!=='');
