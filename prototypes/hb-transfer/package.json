@@ -1,0 +1,1 @@
+{"name":"hb-transfer","version":"0.2.0","private":true,"type":"module","description":"Local Wi-Fi transfer prototype with receiver approval","engines":{"node":">=22"},"scripts":{"start":"node server.mjs","test":"node --test","check":"node --check server.mjs && node --check public/app.js && node --test"}}

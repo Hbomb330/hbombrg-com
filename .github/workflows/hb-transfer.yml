@@ -1,0 +1,36 @@
+name: HB Transfer prototype
+on:
+  push:
+    branches: [dev/hb-transfer-0.2]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  transfer-check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: ['22', '24']
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: prototypes/hb-transfer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm run check
+  browser-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: prototypes/hb-transfer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install --no-save --package-lock=false playwright@1.62.1
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/browser-smoke.mjs
