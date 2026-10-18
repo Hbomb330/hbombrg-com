@@ -10,7 +10,12 @@ Local Linux / Node 24.19.0: all five Node test groups passed over actual loopbac
 - Chunk order, maximum sizes, corruption, incomplete transfers, cancellation, upload capacity, duplicate filenames and graceful partial cleanup.
 - Short-code pairing, global rate limits, code/session expiry, browser revocation, restart isolation and malformed JSON errors.
 
-The browser smoke test was attempted locally, but Chromium is absent and its download failed. Browser results are therefore pending; the integration workflow runs the same script on GitHub. Windows CI results should be checked on the PR. CI never establishes physical Wi-Fi, Windows Firewall or Fire Silk compatibility.
+GitHub Actions run [39154745720](https://github.com/Hbomb330/hbombrg-com/actions/runs/39154745720) passed on implementation commit `29574e4b4596bbe64f85901733b72b17c99597ec`:
+
+- Core tests on Windows and Ubuntu, Node 22 and 24 (all four jobs passed).
+- Playwright Chromium browser test: desktop upload → mobile download/save/readback; mobile upload → desktop download with exact saved-byte comparison; disconnect; no browser errors or horizontal overflow at 390×844, 600×1024, 1024×600 and 360×800.
+
+The local browser attempt failed because Chromium was absent and its download failed; the successful browser test ran on GitHub's Ubuntu runner with Playwright 1.56.1. CI never establishes physical Wi-Fi, Windows Firewall or Fire Silk compatibility. The subsequent documentation-only commit records these results without changing tested application code.
 
 No physical Windows/Fire transfer, real 256 MiB file, or actual APK/EXE installation has been verified. Automated APK/EXE payloads are arbitrary test bytes, not installable software.
 
