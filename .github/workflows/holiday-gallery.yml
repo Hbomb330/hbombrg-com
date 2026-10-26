@@ -1,0 +1,33 @@
+name: Holiday gallery
+on:
+  pull_request:
+    paths:
+      - 'holiday-gallery.html'
+      - 'previews/holidays/**'
+      - 'tests/holiday-gallery.cjs'
+      - '.github/workflows/holiday-gallery.yml'
+      - 'index.html'
+permissions:
+  contents: read
+jobs:
+  verify-holiday-gallery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test tools
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Check gallery in Chromium
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/gallery-server.log 2>&1 &
+          node tests/holiday-gallery.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: holiday-gallery-screenshots
+          path: /tmp/holiday-*.png
+          if-no-files-found: ignore
