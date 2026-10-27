@@ -2,10 +2,12 @@ const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 (async()=>{
  const browser=await chromium.launch();
+ console.log('Chromium launched');
  try {
-  const page=await browser.newPage();const errors=[];
+  const page=await browser.newPage();page.setDefaultTimeout(15000);page.setDefaultNavigationTimeout(20000);const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   for(const width of [1440,768,390]) {
+   console.log(`Testing viewport ${width}`);
    await page.setViewportSize({width,height:900});
    await page.goto('http://127.0.0.1:8765/holiday-gallery.html');
    assert.equal(await page.locator('.theme-panel:visible').getAttribute('id'),'halloween');
@@ -16,8 +18,9 @@ const assert=require('node:assert/strict');
     await page.locator(`[data-theme="${key}"]`).focus();await page.keyboard.press('Enter');
     await page.waitForFunction(k=>!document.getElementById(k).hidden,key);
     assert.equal(await page.locator('.theme-panel:visible').getAttribute('id'),key);
-    await page.locator(`#${key} video`).evaluate(v=>v.play());
-    await page.waitForFunction(k=>document.querySelector(`#${k} video`).currentTime>.1,key);
+    console.log(`Testing playback ${width}: ${key}`);
+    await page.locator(`#${key} video`).evaluate(v=>{v.play().catch(e=>{v.dataset.playError=e.message})});
+    await page.waitForFunction(k=>{const v=document.querySelector(`#${k} video`);if(v.dataset.playError)throw Error(v.dataset.playError);return v.currentTime>.1},key,{timeout:20000});
     assert(await page.locator(`#${key} video`).evaluate(v=>v.videoWidth>0&&!v.error));
    }
    assert(await page.locator('#christmas video').evaluate(v=>v.paused));
