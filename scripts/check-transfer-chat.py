@@ -5,6 +5,15 @@ import subprocess
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
+RELEASE_BASE = 'https://github.com/Hbomb330/hbombrg-com/releases/download/store-tested-apps-2026-10-24/'
+ALLOWED_RELEASE_ASSETS = {
+    'HBTransfer-Windows-Test.zip',
+    'HBTransfer-Android-Test.apk',
+    'HBM-Chat-1.0.1-Windows-Test.zip',
+    'HBM-Chat-v1.0.1-debug.apk',
+    'SHA256SUMS.txt',
+}
+ALLOWED_EXTERNAL_LINKS = {RELEASE_BASE + name for name in ALLOWED_RELEASE_ASSETS}
 VOID = set('area base br col embed hr img input link meta param source track wbr'.split())
 
 
@@ -59,7 +68,9 @@ assert page.h1_count == 1, 'Expected one main heading'
 assert set(page.labels) <= page.ids, 'Broken accessible heading reference'
 for link in page.links:
     target = urlsplit(link)
-    assert not target.scheme and not target.netloc, f'Unexpected external link: {link}'
+    if target.scheme or target.netloc:
+        assert link in ALLOWED_EXTERNAL_LINKS, f'Unexpected external link: {link}'
+        continue
     if target.path:
         assert (ROOT / unquote(target.path)).is_file(), f'Missing local target: {link}'
     else:
@@ -68,4 +79,5 @@ assert page.scripts, 'Motion controls script missing'
 for script in page.scripts:
     result = subprocess.run(['node', '--check'], input=script, text=True, capture_output=True)
     assert result.returncode == 0, result.stderr
-print(f'PASS: balanced HTML, unique IDs, heading labels, {len(page.links)} local links and JavaScript syntax')
+assert ALLOWED_EXTERNAL_LINKS <= set(page.links), 'Missing expected release asset link(s)'
+print(f'PASS: balanced HTML, unique IDs, heading labels, {len(page.links)} checked links and JavaScript syntax')
