@@ -1,13 +1,16 @@
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 (async()=>{
- const browser=await chromium.launch();
- console.log('Chromium launched');
+ // The original H.264 previews need the codecs bundled with branded Chrome.
+ // Playwright's Chromium headless shell does not include those codecs.
+ const browser=await chromium.launch({channel:'chrome'});
+ console.log('Chrome launched',browser.version());
  try {
   const page=await browser.newPage();page.setDefaultTimeout(15000);page.setDefaultNavigationTimeout(20000);const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   page.on('response',r=>{if(r.url().endsWith('.mp4'))console.log('Media response',r.status(),r.url(),JSON.stringify(r.headers()))});
   page.on('requestfailed',r=>console.error('Request failed',r.url(),r.failure()));
+  assert(await page.evaluate(()=>document.createElement('video').canPlayType('video/mp4; codecs="avc1.64001f"')),'Test browser must support the original H.264 previews');
   for(const width of [1440,768,390]) {
    console.log(`Testing viewport ${width}`);
    await page.setViewportSize({width,height:900});
@@ -30,6 +33,7 @@ const assert=require('node:assert/strict');
      throw error;
     }
     assert(await page.locator(`#${key} video`).evaluate(v=>v.videoWidth>0&&!v.error));
+    await page.screenshot({path:`/tmp/holiday-${width}-${key}.png`,fullPage:true});
    }
    assert(await page.locator('#christmas video').evaluate(v=>v.paused));
    await page.goBack();await page.waitForFunction(()=>!document.getElementById('christmas').hidden);
