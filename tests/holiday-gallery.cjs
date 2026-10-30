@@ -42,6 +42,18 @@ const assert=require('node:assert/strict');
   await page.locator('#blue-wave a[href="holiday-gallery.html"]').click();await page.waitForURL('**/holiday-gallery.html');
   await page.locator('.back').click();await page.waitForURL('**/index.html#blue-wave');
   assert.equal(await page.locator('[data-app-download="blue-wave"]').getAttribute('href'),'https://github.com/Hbomb330/hbombrg-com/releases/download/blue-wave-v2.1.0/HBOMB.Blue.Wave.2.1.0.exe');
+  // Returning from the gallery must preserve the homepage preview/dock controls.
+  await page.locator('#blue-wave .window-open-btn').click();
+  await page.waitForFunction(()=>document.getElementById('appWindow').classList.contains('open'));
+  await page.locator('#windowMin').click();
+  await page.waitForFunction(()=>document.getElementById('appWindow').classList.contains('minimized'));
+  await page.locator('.dockbtn[data-target="blue-wave"]').click();
+  await page.waitForFunction(()=>document.getElementById('appWindow').classList.contains('open'));
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(()=>document.getElementById('appWindow').getAttribute('aria-hidden')==='true');
+  await page.locator('#blue-wave .window-open-btn').click();
+  await page.locator('#windowClose').click();
+  await page.waitForFunction(()=>document.getElementById('appWindow').getAttribute('aria-hidden')==='true');
   const ctx=await browser.newContext({javaScriptEnabled:false});const nojs=await ctx.newPage();
   await nojs.goto('http://127.0.0.1:8765/holiday-gallery.html');assert.equal(await nojs.locator('.theme-panel:visible').count(),3);await ctx.close();
   assert.deepEqual(errors,[]);
