@@ -41,7 +41,7 @@ const assert=require('node:assert/strict');
   await page.goto('http://127.0.0.1:8765/');
   await page.locator('#blue-wave a[href="holiday-gallery.html"]').click();await page.waitForURL('**/holiday-gallery.html');
   await page.locator('.back').click();await page.waitForURL('**/index.html#blue-wave');
-  assert.equal(await page.locator('[data-app-download="blue-wave"]').getAttribute('href'),'https://github.com/Hbomb330/hbombrg-com/releases/download/blue-wave-v2.1.0/HBOMB.Blue.Wave.2.1.0.exe');
+  assert.equal(await page.locator('[data-app-download="blue-wave"]').getAttribute('href'),'https://github.com/Hbomb330/hbombrg-com/releases/download/blue-wave-v4.1.0/Blue-Wave-4.1-Windows.zip');
   // Returning from the gallery must preserve the homepage preview/dock controls.
   await page.locator('#blue-wave .window-open-btn').click();
   await page.waitForFunction(()=>document.getElementById('appWindow').classList.contains('open'));
@@ -57,6 +57,6 @@ const assert=require('node:assert/strict');
   const ctx=await browser.newContext({javaScriptEnabled:false});const nojs=await ctx.newPage();
   await nojs.goto('http://127.0.0.1:8765/holiday-gallery.html');assert.equal(await nojs.locator('.theme-panel:visible').count(),3);await ctx.close();
   assert.deepEqual(errors,[]);
-  console.log('PASS: desktop/tablet/mobile, keyboard themes, playback, pause on switch, history, homepage navigation, unchanged Blue Wave download and no-JS fallback');
+  console.log('PASS: desktop/tablet/mobile, keyboard themes, playback, pause on switch, history, homepage navigation, Blue Wave 4.1 download and no-JS fallback');
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
