@@ -1,0 +1,14 @@
+{
+  "name": "hb-transfer",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "HB Transfer: private-LAN file transfer MVP",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test"
+  }
+}
