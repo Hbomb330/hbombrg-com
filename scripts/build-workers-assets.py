@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC_PATHS = (
     "404.html",
     "_headers",
+    "assets/blue-wave-icon.webp",
+    "assets/time-core-icon.webp",
     "docs/checksums",
     "hbomb-rg-web-apps-social.png",
     "holiday-gallery.html",
