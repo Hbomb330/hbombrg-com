@@ -15,3 +15,18 @@ RELEASE RULE
 V3.0 RELEASE remains the known-good rollback checkpoint. V3.2 changes deployment packaging/metadata, not the core window/dock engine.
 
 V3.3: Four concept preview images in previews/. Cards animate subtly; Open Preview shows an enlarged interface simulation. These are representative visuals, not captured app footage. Deploy the full folder so relative SVG paths resolve.
+
+CLOUDFLARE WORKERS STATIC ASSETS
+From the repository root, run the following to validate the committed site locally:
+
+  python scripts/build-workers-assets.py
+  npx wrangler@4.158.0 deploy --dry-run
+
+The build recreates dist/ from the public paths listed in the script. Commit
+site changes before staging them. Add new public paths to the list as needed.
+
+For Workers Builds, use the repository root and the build command
+`python3 scripts/build-workers-assets.py`. Review production branch, preview
+triggers, and the saved deploy command before connecting or merging. Cloudflare
+can deploy automatically on a connected branch. The Wrangler file targets
+hbombrg-webapps-v32 and leaves routing out of the repository configuration.

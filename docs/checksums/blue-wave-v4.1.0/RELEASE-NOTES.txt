@@ -1,0 +1,20 @@
+HBOMB Blue Wave 4.1
+Windows portable release — November 10, 2026
+
+RUN
+Extract the ENTIRE Blue-Wave-4.1-Windows.zip into a new folder, then run Start-Blue-Wave-4.1.cmd. Keep the launcher beside win-unpacked. Do not extract over your original V4 folder.
+
+WHAT CHANGED
+A glass blue control panel, clearer section headings, larger inputs, quieter hints, and Start Wallpaper, Restart, Fullscreen and Hide Panel controls at the top. All six holiday videos, custom MP4 support, Fit/Fill, presets, performance options and wallpaper controls are retained.
+
+VALIDATION
+The owner reported that the interface preview checks passed on Windows. Release cleanup removes Preview wording from the title and interface, corrects the tray version and updates package metadata. Wallpaper and animation logic are unchanged. Automated regression and browser interface checks passed after label cleanup. Desktop APIs in automated checks use test doubles.
+
+SETTINGS
+The app retains the historical folder named HBOMB Blue Wave V4.1 UI Preview in Windows AppData so your tested settings are retained. The internal executable retains the original V4 filename; use the included 4.1 launcher.
+
+BACKUP
+Your original V4 files and settings are untouched. The 4.1 settings folder is separate; older presets are not automatically imported.
+
+PACKAGE
+Portable Windows ZIP. No installer or new signing step. Release cleanup also updates version labels and package metadata. Wallpaper and animation logic are unchanged. 

@@ -1,0 +1,3 @@
+f320f4a6ebaa0018f5e97f7e17817cbce0a16d4033963f2d434eb4d927d0868e  Blue-Wave-4.1-Windows.zip
+2b0757f8ae11ae09b272ccad6f3640d0000cebed977555c62a40dc792ef07791  Blue-Wave-4.1-Source.zip
+086baf0faa64d2cca93356eeb59b77a7f383d6aa40593e5bb6360a0e6eef80da  Blue-Wave-V4.zip
